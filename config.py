@@ -96,6 +96,25 @@ class DDNSConfig(object):
 
         return value
 
+    def get_option_boolean_value(self, section, option, default=None):
+        """
+        Get specific option value from section, default is None
+
+        :param section: ini file section
+        :param option:  init file option
+        :param default: default value for option
+        :return: option value
+        """
+        value = default
+        try:
+            value = self.parser.getboolean(section, option)
+        except ConfigParser.NoSectionError:
+            print("No section: {0}".format(section))
+        except ConfigParser.NoOptionError:
+            print("No option {0} in section: {1}".format(option, section))
+
+        return value
+
     def get_feature_public_ip_from_nic_options(self):
         """
         Get options about the getting ip from nic.
