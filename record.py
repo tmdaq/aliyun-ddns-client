@@ -42,6 +42,7 @@ class LocalDomainRecord(object):# pylint: disable=too-few-public-methods
         self.rr = self.subdomain = config.get_option_value(section, "sub_domain")
         self.type = config.get_option_value(section, "type", default="A")
         self.interface = config.get_option_value(section, "interface", default="eno1")
+        self.need_resolve = config.get_option_boolean_value(section, "need_resolve", default=False)
 
         if not self.domainname:
             raise ValueError("Failed initializing LocalDomainRecord: " \
@@ -168,5 +169,6 @@ class DDNSDomainRecordManager(object):
         return self.resolver.update_domain_record(remote_record.recordid,
                                                   rr=remote_record.rr,
                                                   record_value=current_public_ip,
-                                                  record_type=record_type
+                                                  record_type=record_type,
+                                                  ttl=remote_record.ttl
                                                   )

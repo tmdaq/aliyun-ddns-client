@@ -37,7 +37,8 @@ def main():
         DDNSUtils.err_and_exit("Failed to get current public IP")
 
     for local_record in record_manager.local_record_list:
-        dns_resolved_ip = DDNSUtils.get_dns_resolved_ip(local_record.subdomain,
+        if local_record.need_resolve:
+            dns_resolved_ip = DDNSUtils.get_dns_resolved_ip(local_record.subdomain,
                                                         local_record.domainname)
         
         if local_record.type=="AAAA":
